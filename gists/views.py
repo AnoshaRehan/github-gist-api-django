@@ -28,6 +28,7 @@ class GetUserGistsAPI(APIView):
         res = requests.get(url)
         return Response(res, status=200)
 
+
 class GetForksAPI(APIView):
 
     def get(self, request):
