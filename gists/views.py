@@ -12,10 +12,18 @@ from requests import get
 import json
 
 # Create your views here.
-class GetGistAPI(APIView):
-    GITHUB_API = "https://api.github.com"
+GITHUB_API = "https://api.github.com"
+
+class GetPublicGistAPI(APIView):
     url = GITHUB_API + "/gists/public"
 
     def get(self, request):
         res = requests.get(self.url)
+        return Response(res, status=200)
+
+class GetUserGistsAPI(APIView):
+
+    def get(self, request):
+        url = self.GITHUB_API + "/users/{}/gists".format(request.GET['username'])
+        res = requests.get(url)
         return Response(res, status=200)
