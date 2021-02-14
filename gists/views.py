@@ -1,33 +1,30 @@
-from django.shortcuts import render
-from django.shortcuts import render
+from rest_framework.renderers import TemplateHTMLRenderer
 import requests
-import time
-from django.db import connection
-from functools import wraps
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-import logging
-from requests import get
+
 import json
 
 # Create your views here.
 GITHUB_API = "https://api.github.com"
 
 class GetPublicGistAPI(APIView):
-    url = GITHUB_API + "/gists/public"
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'gists_results.html'
 
+    url = GITHUB_API + "/gists/public"
     def get(self, request):
         res = requests.get(self.url)
         data = json.loads(res.text)
-        return Response(data, status=200)
+        return Response({'response': data})
 
 class GetUserGistsAPI(APIView):
-
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'search_results.html'
     def get(self, request):
         url = GITHUB_API + "/users/{}/gists".format(request.GET['username'])
         res = requests.get(url)
-        return Response(res, status=200)
+        return Response({'response': res})
 
 
 class GetForksAPI(APIView):

@@ -5,8 +5,8 @@ from gists.views import GetPublicGistAPI, GetUserGistsAPI, GetForksAPI, GetGistC
 app_name = "gists"
 
 urlpatterns = [
-    path('getGists/', GetPublicGistAPI.as_view()),
-    url(r'^getUserGist/$', GetUserGistsAPI.as_view()),
+    path('getGists/', GetPublicGistAPI.as_view(), name='gists_results'),
+    url(r'^getUserGist/$', GetUserGistsAPI.as_view(), name='search_results'),
     url(r'^getForks/$', GetForksAPI.as_view()),
     path('getGistContent/<str:id>', GetGistContentAPI.as_view())
 ]
