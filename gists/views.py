@@ -36,11 +36,11 @@ class GetForksAPI(APIView):
         url = GITHUB_API + "/gists/{}/forks".format(request.GET['gist_id'])
         res = requests.get(url)
         user_avatar = {}
-        data = json.loads(res.text)
-        data = data[-3:]
-        for i in range(len(data)):
-            avatar = data[i]['owner']['avatar_url']
-            username = data[i]['owner']['login']
+        data = json.loads(res.text) # All forks
+        last_three = data[-3:] # Recently forked
+        for i in range(len(last_three)):
+            avatar = last_three[i]['owner']['avatar_url']
+            username = last_three[i]['owner']['login']
             if username not in user_avatar:
                 user_avatar[username] = avatar
         return Response(user_avatar, status=200)
@@ -58,4 +58,3 @@ class GetGistContentAPI(APIView):
         print(content)
 
         return Response(content, status=200)
-
