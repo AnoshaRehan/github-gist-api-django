@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
+    <title>Search</title>
+</head>
+<body>
+{% block content %}
+        <h1>Searching</h1>
+    <form method="get">
+        <input name="username" type="text" placeholder="Search...">
+    </form>
+
+<div className="item">
+    <h3>ALL GISTS: </h3>
+                 <div className="content">
+                        {% for res in response %}
+                            <li>{{ res.id }}</li>
+                        {% endfor %}
+                </div>
+</div>
+
+
+{% endblock content %}
+</body>
+</html>
