@@ -19,7 +19,8 @@ class GetPublicGistAPI(APIView):
 
     def get(self, request):
         res = requests.get(self.url)
-        return Response(res, status=200)
+        data = json.loads(res.text)
+        return Response(data, status=200)
 
 class GetUserGistsAPI(APIView):
 
@@ -36,9 +37,25 @@ class GetForksAPI(APIView):
         res = requests.get(url)
         user_avatar = {}
         data = json.loads(res.text)
+        data = data[-3:]
         for i in range(len(data)):
             avatar = data[i]['owner']['avatar_url']
             username = data[i]['owner']['login']
             if username not in user_avatar:
                 user_avatar[username] = avatar
         return Response(user_avatar, status=200)
+
+
+class GetGistContentAPI(APIView):
+
+    def get(self, request, id):
+        gist_id = id
+        url = GITHUB_API + "/gists/{}".format(gist_id)
+        resp = requests.get(url)
+        data = json.loads(resp.text)
+        file = list(data['files'].items())[0]
+        content = file[-1]['content']
+        print(content)
+
+        return Response(content, status=200)
+
